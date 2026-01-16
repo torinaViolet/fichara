@@ -226,29 +226,3 @@ class CharacterCardValidator:
             elif entry.extensions.depth > 100:
                 entry.extensions.depth = 100
 
-
-# ============ 使用示例 ============
-
-if __name__ == '__main__':
-    from png_handler import load_card_data
-    from models import parse_character_card
-
-    # 加载角色卡
-    raw_data = load_card_data(r"C:\Users\Violet\Downloads\测试.png")
-    card = parse_character_card(raw_data)
-
-    # 验证
-    is_valid, errors = CharacterCardValidator.validate(card)
-
-    print(f"验证结果: {'✅ 通过' if is_valid else '❌ 失败'}")
-    print(f"发现 {len(errors)} 个问题:\n")
-
-    for error in errors:
-        print(error)
-
-    # 自动修复
-    if not is_valid:
-        print("\n正在尝试自动修复...")
-        fixed_card = CharacterCardValidator.auto_fix(card)
-        is_valid_after, errors_after = CharacterCardValidator.validate(fixed_card)
-        print(f"修复后: {'✅ 通过' if is_valid_after else '❌ 仍有问题'}")
