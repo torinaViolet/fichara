@@ -267,36 +267,3 @@ class LorebookHandler:
 
         manager = LorebookManager(card_book)
         return manager.merge_with(book, strategy)
-
-
-# ============ 使用示例 ============
-
-if __name__ == '__main__':
-    print("=" * 60)
-    print("独立世界书处理器测试")
-    print("=" * 60)
-
-    # 1. 加载独立世界书
-    print("\n1. 加载独立世界书...")
-    standalone_book = LorebookHandler.load_standalone_lorebook(
-        r"C:\Users\Violet\Downloads\测试世界书（角色）.json"
-    )
-
-    print(f"条目数: {len(standalone_book.entries)}")
-
-    # 2. 显示统计
-    from lorebook_manager import LorebookManager
-
-    manager = LorebookManager(standalone_book)
-    manager.print_statistics()
-
-    # 3. 保存为独立格式
-    print("\n2. 保存为独立世界书格式...")
-    LorebookHandler.save_standalone_lorebook(
-        standalone_book,
-        "output_standalone.json"
-    )
-
-    print("\n" + "=" * 60)
-    print("✅ 测试完成！")
-    print("=" * 60)
