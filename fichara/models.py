@@ -199,38 +199,3 @@ def parse_character_card(data: dict) -> CharacterCardV3 | CharacterCardV2:
         return CharacterCardV2(**data)
     else:
         return CharacterCardV2(**data)
-
-
-# ============ 使用示例 ============
-
-if __name__ == '__main__':
-    from png_handler import load_card_data
-
-    raw_data = load_card_data(r"C:\Users\Violet\Downloads\测试.png")
-    card = parse_character_card(raw_data)
-
-    print(f"版本: {card.spec} {card.spec_version}")
-    print(f"角色名: {card.name}")
-
-    if isinstance(card, CharacterCardV3):
-        print(f"话痨度: {card.data.extensions.talkativeness}")
-        print(f"世界书: {card.data.extensions.world}")
-
-        if card.data.character_book:
-            print(f"\n世界书条目数: {len(card.data.character_book.entries)}")
-
-            green_entries = [e for e in card.data.character_book.entries if
-                             not e.constant and not e.extensions.vectorized]
-            blue_entries = [e for e in card.data.character_book.entries if e.constant]
-            vector_entries = [e for e in card.data.character_book.entries if e.extensions.vectorized]
-
-            print(f"🟢 绿灯条目: {len(green_entries)}")
-            print(f"🔵 蓝灯条目: {len(blue_entries)}")
-            print(f"🔗 向量条目: {len(vector_entries)}")
-
-            for entry in card.data.character_book.entries:
-                role_emoji = {0: "⚙️", 1: "👤", 2: "🤖"}.get(entry.extensions.role, "")
-                entry_type = "🔵" if entry.constant else ("🔗" if entry.extensions.vectorized else "🟢")
-                print(f"\n{entry_type} {role_emoji} {entry.comment}")
-                print(f"  位置: {entry.position} (细分: {entry.extensions.position})")
-                print(f"  深度: {entry.extensions.depth}")
